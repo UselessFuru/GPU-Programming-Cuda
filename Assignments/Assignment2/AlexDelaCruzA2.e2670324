@@ -1,0 +1,4 @@
+AlexDelaCruzA2.cu(131): warning: variable "dimGridSol2" was declared but never referenced
+
+AlexDelaCruzA2.cu(138): warning: variable "dimBlockSol2" was declared but never referenced
+

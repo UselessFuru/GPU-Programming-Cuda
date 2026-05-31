@@ -1,0 +1,49 @@
+#!/bin/bash
+#----------------------------------------------------
+# Sample Slurm job script
+#   for TACC Lonestar6 AMD Milan nodes
+#
+#   *** OpenMP Job in Normal Queue ***
+# 
+# Last revised: October 22, 2021
+#
+# Notes:
+#
+#   -- Launch this script by executing
+#   -- Copy/edit this script as desired.  Launch by executing
+#      "sbatch milan.openmp.slurm" on a Lonestar6 login node.
+#
+#   -- OpenMP codes run on a single node (upper case N = 1).
+#        OpenMP ignores the value of lower case n,
+#        but slurm needs a plausible value to schedule the job.
+#
+#   -- Default value of OMP_NUM_THREADS is 1; be sure to change it!
+#
+#   -- Increase thread count gradually while looking for optimal setting.
+#        If there is sufficient memory available, the optimal setting
+#        is often 56 (1 thread per core) but may be higher.
+#----------------------------------------------------
+
+#SBATCH -J AlexDelaCruzA1           # Job name
+#SBATCH -o AlexDelaCruzA1.o%j       # Name of stdout output file
+#SBATCH -e AlexDelaCruzA1.e%j       # Name of stderr error file
+#SBATCH -p gpu-a100-dev        # Queue (partition) name
+#SBATCH -N 1               # Total # of nodes (must be 1 for OpenMP)
+#SBATCH -n 1               # Total # of mpi tasks (should be 1 for OpenMP)
+#SBATCH -t 2:00:00        # Run time (hh:mm:ss)
+#SBATCH --mail-type=all    # Send email at begin and end of job
+#SBATCH --mail-user=
+#SBATCH -A ASC23018  # class project/account code
+
+# Any other commands must follow all #SBATCH directives...
+module load hdf5
+module load cuda/11.3
+pwd
+date
+
+nvcc AlexDelaCruzA1.cu -o AlexDelaCruzA1.out
+
+#============================
+# LAUNCH YOUR EXECUTABLE
+# Launch the executable named "a.out"
+./AlexDelaCruzA1.out
